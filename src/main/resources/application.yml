@@ -1,0 +1,31 @@
+server:
+  port: 8080
+
+eureka:
+  instance:
+    hostname: localhost
+
+spring:
+  application:
+    name: gateway
+  cloud:
+    gateway:
+      routes:
+        - id: taskservice
+          uri: http://localhost:8081/
+          predicates:
+            - Path=/api/tasks/**
+            #- Method=GET
+#          filters:
+#            - RewritePath=/tasks/(?<segment>.*)/(?<segment2>.*), /tasks/all
+        - id: executorService
+          uri: http://localhost:8082/
+          predicates:
+            - Path=/api/executors/**
+            #- Method=POST
+
+        - id: viewService
+          uri: http://localhost:8084/
+          predicates:
+            - Path=/index/**
+            #- Method=POST
